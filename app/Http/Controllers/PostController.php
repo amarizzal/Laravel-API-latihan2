@@ -15,7 +15,7 @@ class PostController extends Controller
 
         // return response()->json(['data' => $posts]);
 
-        return PostResource::collection($posts);
+        return PostDetailResource::collection($posts->loadMissing('writer'));
     }
     
     public function show($id) {
@@ -25,6 +25,20 @@ class PostController extends Controller
     }
     
     public function store(Request $request) {
+        $request->validate([
+            'title' => 'required',
+            'news_content' => 'required',
+        ]);
+
+        $request['author'] = Auth::user()->id;
+        
+        $posts = Post::create($request->all());
+        
+        return new PostDetailResource($posts->loadMissing('writer:id,username'));
+
+    }
+    
+    public function update(Request $request) {
         $request->validate([
             'title' => 'required',
             'news_content' => 'required',
