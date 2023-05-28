@@ -44,11 +44,9 @@ class PostController extends Controller
             'news_content' => 'required',
         ]);
 
-        $request['author'] = Auth::user()->id;
-        
-        $posts = Post::create($request->all());
-        
-        return new PostDetailResource($posts->loadMissing('writer:id,username'));
+        $post = Post::findOrFail($request->id);
+        $post->update($request->all());
 
+        return new PostDetailResource($post->loadMissing('writer:id,username'));
     }
 }
