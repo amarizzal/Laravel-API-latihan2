@@ -15,7 +15,7 @@ class PostController extends Controller
 
         // return response()->json(['data' => $posts]);
 
-        return PostDetailResource::collection($posts->loadMissing('writer'));
+        return PostDetailResource::collection($posts->loadMissing(['writer', 'comments']));
     }
     
     public function show($id) {
