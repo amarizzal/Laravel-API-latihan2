@@ -31,6 +31,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/posts/{id}',[PostController::class, 'update'])->middleware('pemilik.postingan');
     Route::delete('/posts/{id}',[PostController::class, 'destroy'])->middleware('pemilik.postingan');
     Route::post('/comment',[CommentController::class, 'store']);
+    Route::put('/comment/{id}',[CommentController::class, 'update'])->middleware('pemilik.komentar');
+    Route::delete('/comment/{id}',[CommentController::class, 'destroy'])->middleware('pemilik.komentar');
 });
 
 Route::post('/login', [AuthenticationController::class, 'login']);
